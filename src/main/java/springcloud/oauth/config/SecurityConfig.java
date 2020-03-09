@@ -23,7 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private String login;
 
     /**
-     * 注入用户信息服务     * @return 用户信息服务对象
+     * 注入用户信息服务
+     * * @return 用户信息服务对象
      */
     @Override
     @Bean
@@ -32,7 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 全局用户信息     * @param auth 认证管理     * @throws Exception 用户认证异常信息
+     * 全局用户信息
+     * * @param auth 认证管理
+     * * @throws Exception 用户认证异常信息
      */
     @Autowired
     public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
@@ -49,7 +52,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * http安全配置     * @param http http安全对象     * @throws Exception http安全异常信息
+     * http安全配置
+     * * @param http http安全对象
+     * * @throws Exception http安全异常信息
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -57,4 +62,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //忽略登录验证token 登录之后返回token
         .antMatchers(login).permitAll().anyRequest().authenticated().and().httpBasic().and().csrf().disable();
     }
+
+
 }

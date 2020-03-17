@@ -21,6 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value(value = "${security.oauth2.resource.login}")
     private String login;
+    @Value(value = "${security.oauth2.resource.out}")
+    private String out;
 
     /**
      * 注入用户信息服务
@@ -59,8 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-        //忽略登录验证token 登录之后返回token
-        .antMatchers(login).permitAll().anyRequest().authenticated().and().httpBasic().and().csrf().disable();
+        //忽略登录、及退出登录验证token 登录之后返回token
+        .antMatchers(login,out).permitAll().anyRequest().authenticated().and().httpBasic().and().csrf().disable();
     }
 
 

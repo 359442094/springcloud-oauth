@@ -7,11 +7,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import springcloud.oauth.config.AuthProperties;
 import springcloud.oauth.dto.LoginRequest;
@@ -78,6 +77,18 @@ public class UserController {
 
         return new LoginResponse(user,body);
 
+    }
+
+    @Autowired
+    private ConsumerTokenServices consumerTokenServices;
+
+    @RequestMapping(value = "${security.oauth2.resource.out}",method = RequestMethod.GET)
+    @ResponseBody
+    public boolean wuJinLogout(@RequestParam("token")String accessToken){
+        if (consumerTokenServices.revokeToken(accessToken)) {
+            return true;
+        }
+        return false;
     }
 
 }
